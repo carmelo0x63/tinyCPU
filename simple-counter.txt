@@ -1,0 +1,15 @@
+; Simple counter program
+; This program counts from 1 to 10 and then stops
+
+start:  MOV R0 #1        ; Initialize counter to 1
+        MOV R1 #10       ; Set upper limit to 10
+
+loop:   ; Display the counter (in real CPU this would output to screen)
+        ; For our simulator, we'll just see the value in R0
+        
+        ADD R0 #1        ; Increment counter
+        CMP R0 R1        ; Compare counter with limit
+        JLT R0 loop      ; Jump back if counter < limit
+        
+        ; When we get here, counter has reached limit
+        HLT              ; Halt the CPU

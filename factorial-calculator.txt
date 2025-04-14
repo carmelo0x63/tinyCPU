@@ -1,0 +1,32 @@
+; Factorial calculator
+; Calculates factorial of the number in R0 using recursion
+; Result is stored in R1
+
+        MOV R0 #5        ; Calculate factorial of 5
+        CALL factorial   ; Call the factorial subroutine
+        MOV R1 R0        ; Store result in R1
+        HLT              ; Halt execution
+
+factorial:
+        ; If R0 <= 1, return 1
+        CMP R0 #1
+        JLT R0 base_case
+        JEQ R0 base_case
+
+        ; Otherwise, calculate factorial(n-1) and multiply
+        PUSH R0          ; Save current value of n
+        SUB R0 #1        ; Decrement n
+        CALL factorial   ; Recursive call to calculate factorial(n-1)
+        
+        ; When we return, R0 contains factorial(n-1)
+        ; Pop original n value
+        POP R2
+        
+        ; Multiply n by factorial(n-1)
+        MUL R0 R2
+        
+        RET              ; Return to caller
+
+base_case:
+        MOV R0 #1        ; Factorial of 0 or 1 is 1
+        RET              ; Return to caller
