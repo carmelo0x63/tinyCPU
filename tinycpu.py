@@ -414,7 +414,7 @@ class CPUSimulator:
             # Display help
             help_text = [
                 "s: Step      r: Run/Pause     q: Quit",
-                "+/-: Adjust speed   space: Reset"
+                "+/-: Adjust speed        space: Reset"
             ]
             for i, text in enumerate(help_text):
                 self.stdscr.addstr(22 + i, 0, text)
@@ -495,7 +495,7 @@ class CPUSimulator:
 
 def main():
     if len(sys.argv) != 2:
-        print("Usage: python cpu_simulator.py <assembly_file>")
+        print("Usage: python3 tinycpu.py <assembly_file>")
         sys.exit(1)
     
     simulator = CPUSimulator()
