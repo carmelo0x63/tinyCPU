@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# Fully functional RISC-like CPU, custom instruction set
+# author: Carmelo C
+# email: carmelo.califano@gmail.com
+# history, date format ISO 8601:
+#   1.0 Fully funtional CPU
+
 import sys
 import time
 import re
