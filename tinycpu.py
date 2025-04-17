@@ -17,6 +17,10 @@ import logging
 from enum import Enum, auto
 from typing import List, Dict, Tuple, Optional
 
+# Version number
+__version__ = '1.1'
+__build__ = '20250417'
+
 class TokenType(Enum):
     REGISTER = auto()
     NUMBER = auto()
@@ -491,18 +495,19 @@ class CPUSimulator:
             self.draw_registers(3, 0)
 
             # Display stack
-            self.draw_stack(3, 40)
+            self.draw_stack(3, 58)
 
             # Display instructions
             self.draw_instructions(12, 0)
 
             # Display help
             help_text = [
+                "Commands:",
                 "s: Step      r: Run/Pause     q: Quit",
                 "+/-: Adjust speed        space: Reset"
             ]
             for i, text in enumerate(help_text):
-                self.stdscr.addstr(22 + i, 0, text)
+                self.stdscr.addstr(23 + i, 0, text)
 
             self.stdscr.refresh()
 
@@ -548,7 +553,7 @@ class CPUSimulator:
 
     def draw_stack(self, y, x):
         """Draw the CPU stack"""
-        self.stdscr.addstr(y, x, f"Stack (SP={self.cpu.registers['SP']}):", curses.A_BOLD)
+        self.stdscr.addstr(y, x, f"Stack (SP = {self.cpu.registers['SP']}):", curses.A_BOLD)
         y += 1
 
         for i, value in enumerate(reversed(self.cpu.stack[-8:] if len(self.cpu.stack) > 8 else self.cpu.stack)):
@@ -585,9 +590,10 @@ class CPUSimulator:
 
 def parse_arguments():
     """Parse command line arguments"""
-    parser = argparse.ArgumentParser(description='Ideal CPU Simulator')
-    parser.add_argument('-f', '--file', type=str, help='Assembly file to load')
-    parser.add_argument('-D', '--debug', action='store_true', help='Enable debug mode with detailed logging')
+    parser = argparse.ArgumentParser(description = 'Tiny CPU simulator, version ' + __version__ + ', build ' + __build__ + '.')
+    parser.add_argument('-V', '--version', action = 'version', version = '%(prog)s ' + __version__)
+    parser.add_argument('-f', '--file', type = str, help = 'Assembly file to load')
+    parser.add_argument('-D', '--debug', action = 'store_true', help = 'Enable debug mode with detailed logging')
     return parser.parse_args()
 
 

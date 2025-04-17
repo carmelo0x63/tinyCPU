@@ -25,10 +25,10 @@ The CPU simulator supports the following instructions:
 | `MUL` | dest, src | Multiply register by value |
 | `DIV` | dest, src | Divide register by value |
 | `JMP` | label | Jump to label |
-| `JEQ` | reg/flag, label | Jump if equal (when reg = 0 or FLAG = 0) |
-| `JNE` | reg/flag, label | Jump if not equal (when reg ≠ 0 or FLAG ≠ 0) |
-| `JGT` | reg/flag, label | Jump if greater than (when reg > 0 or FLAG > 0) |
-| `JLT` | reg/flag, label | Jump if less than (when reg < 0 or FLAG < 0) |
+| `JEQ` | label | Jump if equal (when FLAG = 0) |
+| `JNE` | label | Jump if not equal (when FLAG ≠ 0) |
+| `JGT` | label | Jump if greater than (when FLAG > 0) |
+| `JLT` | label | Jump if less than (when FLAG < 0) |
 | `CMP` | a, b | Compare values (sets FLAG register) |
 | `HLT` | - | Halt execution |
 | `NOP` | - | No operation |
