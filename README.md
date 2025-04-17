@@ -1,4 +1,4 @@
-# tinyCPU - Ideal CPU Simulator
+# tinyCPU - Tiny CPU simulator
 
 A Python-based simulator for an ideal CPU that can parse and execute assembly-like instructions. This project provides a way to understand CPU operations and assembly language programming in a controlled environment.
 
@@ -85,7 +85,7 @@ start:  MOV R0 #1        ; Initialize counter to 1
 
 loop:   ADD R0 #1        ; Increment counter
         CMP R0 R1        ; Compare counter with limit
-        JLT R0 loop      ; Jump back if counter < limit
+        JLT loop         ; Jump back if counter < limit
         HLT              ; Halt the CPU
 ```
 
@@ -104,11 +104,12 @@ The repository includes example programs:
 
 1. **Simple Counter**: Demonstrates basic arithmetic and loops
 2. **Factorial Calculator**: Shows recursion and stack operations
+3. **Self Test**: Simulates memory write/read cycle
 
 ## Requirements
 
 - Python 3.6 or higher
-- Standard Python libraries: `sys`, `time`, `re`, `os`, `curses`, `enum`, `typing`
+- Standard Python libraries only: `sys`, `time`, `re`, `os`, `curses`, `enum`, `typing`, `argparse`, `logging`
 
 ## Contributing
 
