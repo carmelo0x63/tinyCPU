@@ -59,10 +59,20 @@ Clone the repository:
 
 ## Usage
 
+```bash
+usage: tinycpu.py [-h] [-V] [-f FILE] [-D]
+
+options:
+  -h, --help       show this help message and exit
+  -V, --version    show program's version number and exit
+  -f, --file FILE  Assembly file to load
+  -D, --debug      Enable debug mode with detailed logging
+```
+
 ### Running the Simulator
 
 ```bash
-% python3 tinycpu.py <assembly_file>
+% python3 tinycpu.py -f <assembly_file> [-D]
 ```
 
 ### Controls
