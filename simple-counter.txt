@@ -9,7 +9,7 @@ loop:   ; Display the counter (in real CPU this would output to screen)
         
         ADD R0 #1        ; Increment counter
         CMP R0 R1        ; Compare counter with limit
-        JLT R0 loop      ; Jump back if counter < limit
+        JLT loop         ; Jump back if counter < limit
         
         ; When we get here, counter has reached limit
         HLT              ; Halt the CPU

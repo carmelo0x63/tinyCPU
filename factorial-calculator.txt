@@ -10,8 +10,8 @@
 factorial:
         ; If R0 <= 1, return 1
         CMP R0 #1
-        JLT R0 base_case
-        JEQ R0 base_case
+        JLT base_case
+        JEQ base_case
 
         ; Otherwise, calculate factorial(n-1) and multiply
         PUSH R0          ; Save current value of n
