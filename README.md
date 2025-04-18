@@ -2,6 +2,8 @@
 
 A Python-based simulator for an ideal 8-bit CPU that can parse and execute assembly-like instructions. This project provides a way to understand CPU operations and assembly language programming in a controlled environment.
 
+<img src="assets/picture1.png">
+
 ## Features
 
 - **Complete Instruction Set**: Supports a small but comprehensive set of assembly-like instructions
