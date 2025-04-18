@@ -1,6 +1,6 @@
-# tinyCPU - Tiny CPU simulator
+# tinyCPU - Tiny 8-bit CPU simulator
 
-A Python-based simulator for an ideal CPU that can parse and execute assembly-like instructions. This project provides a way to understand CPU operations and assembly language programming in a controlled environment.
+A Python-based simulator for an ideal 8-bit CPU that can parse and execute assembly-like instructions. This project provides a way to understand CPU operations and assembly language programming in a controlled environment.
 
 ## Features
 

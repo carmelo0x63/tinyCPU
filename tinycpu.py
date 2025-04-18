@@ -17,9 +17,11 @@ import logging
 from enum import Enum, auto
 from typing import List, Dict, Tuple, Optional
 
-# Version number
+# Settings
 __version__ = '1.1'
-__build__ = '20250417'
+__build__ = '20250418'
+X_OFFSET = 2
+Y_OFFSET = 0
 
 class TokenType(Enum):
     REGISTER = auto()
@@ -73,11 +75,11 @@ class CPU:
     def __init__(self, debug=False):
         # Initialize registers
         self.registers = {f"R{i}": 0 for i in range(8)}
-        self.registers["PC"] = 0  # Program Counter
-        self.registers["SP"] = 0  # Stack Pointer
+        self.registers["PC"] = 0    # Program Counter
+        self.registers["SP"] = 0    # Stack Pointer
         self.registers["FLAG"] = 0  # Flag register
 
-        self.memory = [0] * 256  # Simple memory model
+        self.memory = [0] * 256     # Simple memory model
         self.stack = []
         self.instructions = []
         self.labels = {}
@@ -173,6 +175,8 @@ class CPU:
                 elif operand.startswith('#'):
                     try:
                         value = int(operand[1:])
+                        if not (0 <= value <= 255):
+                            raise SyntaxError(f"Number must be between 0 and 255: {operand}", line_num)
                         tokenized_operands.append(Token(TokenType.NUMBER, str(value), line_num))
                     except ValueError:
                         self.logger.error(f"Invalid number format: {operand} at line {line_num}")
@@ -467,10 +471,10 @@ class CPUSimulator:
         curses.noecho()
         curses.cbreak()
         curses.start_color()
-        curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)  # Current instruction
+        curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)   # Current instruction
         curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLACK)  # Next instruction
-        curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)  # Errors
-        curses.init_pair(4, curses.COLOR_CYAN, curses.COLOR_BLACK)  # Highlights
+        curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)     # Errors
+        curses.init_pair(4, curses.COLOR_CYAN, curses.COLOR_BLACK)    # Highlights
 
         try:
             self.cpu.execute()
@@ -486,28 +490,37 @@ class CPUSimulator:
 
         while True:
             self.stdscr.clear()
+            self.stdscr.border(0)
 
             # Display title
-            self.stdscr.addstr(0, 0, f"CPU Simulator - {self.filename}", curses.A_BOLD)
-            self.stdscr.addstr(1, 0, f"Speed: {self.cpu.execution_speed:.2f}s/instr", curses.A_BOLD)
+            self.stdscr.addstr(Y_OFFSET, X_OFFSET, f"CPU Simulator - {self.filename}", curses.A_BOLD)
+            self.stdscr.addstr(Y_OFFSET + 1, X_OFFSET, f"Speed: {self.cpu.execution_speed:.2f}s/instr", curses.A_BOLD)
 
             # Display registers
-            self.draw_registers(3, 0)
+            registers_box = self.stdscr.subwin(5, 54, Y_OFFSET + 3, 2)
+            registers_box.box()
+            self.draw_registers(Y_OFFSET + 3, X_OFFSET + 1)
 
             # Display stack
-            self.draw_stack(3, 58)
+            stack_box = self.stdscr.subwin(22, 20, Y_OFFSET + 3, X_OFFSET + 58)
+            stack_box.box()
+            self.draw_stack(Y_OFFSET + 3, X_OFFSET + 59)
 
             # Display instructions
-            self.draw_instructions(12, 0)
+            instructions_box = self.stdscr.subwin(11, 24, Y_OFFSET + 9, 2)
+            instructions_box.box()
+            self.draw_instructions(Y_OFFSET + 9, X_OFFSET + 1)
 
-            # Display help
+            # Display controls 
             help_text = [
-                "Commands:",
                 "s: Step      r: Run/Pause     q: Quit",
                 "+/-: Adjust speed        space: Reset"
             ]
+            controls_box = self.stdscr.subwin(4, 40, Y_OFFSET + 21, 2)
+            controls_box.box()
+            self.stdscr.addstr(Y_OFFSET + 21, X_OFFSET + 1, "Controls", curses.A_BOLD)
             for i, text in enumerate(help_text):
-                self.stdscr.addstr(23 + i, 0, text)
+                self.stdscr.addstr(Y_OFFSET + 22 + i, X_OFFSET + 1, text)
 
             self.stdscr.refresh()
 
@@ -543,7 +556,7 @@ class CPUSimulator:
 
     def draw_registers(self, y, x):
         """Draw the CPU registers"""
-        self.stdscr.addstr(y, x, "Registers:", curses.A_BOLD)
+        self.stdscr.addstr(y, x, "Registers", curses.A_BOLD)
         y += 1
 
         for i, (reg, value) in enumerate(self.cpu.registers.items()):
@@ -553,7 +566,7 @@ class CPUSimulator:
 
     def draw_stack(self, y, x):
         """Draw the CPU stack"""
-        self.stdscr.addstr(y, x, f"Stack (SP = {self.cpu.registers['SP']}):", curses.A_BOLD)
+        self.stdscr.addstr(y, x, f"Stack (SP = {self.cpu.registers['SP']})", curses.A_BOLD)
         y += 1
 
         for i, value in enumerate(reversed(self.cpu.stack[-8:] if len(self.cpu.stack) > 8 else self.cpu.stack)):
@@ -561,7 +574,7 @@ class CPUSimulator:
 
     def draw_instructions(self, y, x):
         """Draw the instruction list"""
-        self.stdscr.addstr(y, x, "Instructions:", curses.A_BOLD)
+        self.stdscr.addstr(y, x, "Instructions", curses.A_BOLD)
         y += 1
 
         pc = self.cpu.registers["PC"]
