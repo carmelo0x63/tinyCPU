@@ -3,8 +3,8 @@
 # author: Carmelo C
 # email: carmelo.califano@gmail.com
 # history, date format ISO 8601:
-#   2025-04-17: 1.1 Edited J** instructions to only jump based on FLAG register,
-#               added argparse, logging
+#   2025-04-18: 1.2 Framed the various sections within boxes, 8-bit check on numbers
+#   2025-04-17: 1.1 Edited J** instructions to only jump based on FLAG register, added argparse, logging
 #   2025-04-15: 1.0 Fully functional CPU
 
 import sys
@@ -18,7 +18,7 @@ from enum import Enum, auto
 from typing import List, Dict, Tuple, Optional
 
 # Settings
-__version__ = '1.1'
+__version__ = '1.2'
 __build__ = '20250418'
 X_OFFSET = 2
 Y_OFFSET = 0
