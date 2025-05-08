@@ -84,7 +84,7 @@ class CPU:
         self.instructions = []
         self.labels = {}
         self.running = False
-        self.execution_speed = 0.5  # seconds between instructions
+        self.execution_speed = 0.5  # Seconds between instructions
         self.debug = debug
 
         # Configure logging
@@ -634,3 +634,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
